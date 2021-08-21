@@ -1,4 +1,5 @@
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import './form.css';
 
 function Form1() {
@@ -7,22 +8,16 @@ function Form1() {
         name: ''
     };
 
-    const validate = (values) => {
-        let errors = {}
-        if(!values.email){
-            errors.email = 'Email is required'
-        }
-        if(!values.name){
-            errors.name = 'Name is required'
-        }
-        return errors;
-    }
+    const validationSchema = Yup.object({
+        email: Yup.string().email('Invalid email').required('Email is required'),
+        name: Yup.string().required('Name is required')
+    });
 
     const onSubmit = (values) => {
         console.log(values);
     }
 
-    const formik = useFormik({ initialValues, validate, onSubmit });
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
    console.log(formik);
 
