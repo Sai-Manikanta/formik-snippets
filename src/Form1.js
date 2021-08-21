@@ -1,6 +1,8 @@
-import { useFormik } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import FieldError from './FieldError';
 import './form.css';
+
 
 function Form1() {
     const initialValues = {
@@ -17,39 +19,27 @@ function Form1() {
         console.log(values);
     }
 
-    const formik = useFormik({ initialValues, validationSchema, onSubmit });
-
-   console.log(formik);
-
     return (
         <div className="container">
-            <form onSubmit={formik.handleSubmit}>
-                <h1>Formik</h1>
+            <Formik 
+                initialValues={initialValues} 
+                validationSchema={validationSchema} 
+                onSubmit={onSubmit}
+            >
+                <Form>
+                    <h1>Formik</h1>
 
-                <label htmlFor="email">Your Email</label>
-                <input 
-                    type="text" 
-                    name="email" 
-                    id="email" 
-                    value={formik.values.email} 
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.email && formik.errors.email && <p className="err">{formik.errors.email}</p>}
+                    <label htmlFor="email">Your Email</label>
+                    <Field type="text" name="email" id="email" />
+                    <ErrorMessage name="email" component={FieldError} />
 
-                <label htmlFor="name">Your Name</label>
-                <input 
-                    type="text" 
-                    name="name" 
-                    id="name" 
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.name && formik.errors.name && <p className="err">{formik.errors.name}</p>}
+                    <label htmlFor="name">Your Name</label>
+                    <Field type="text" name="name" id="name" />
+                    <ErrorMessage name="name" component={FieldError} />
 
-                <button type="submit">Submit</button>
-            </form>
+                    <button type="submit">Submit</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
