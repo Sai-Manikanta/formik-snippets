@@ -19,8 +19,6 @@ function Form1() {
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-   console.log(formik);
-
     return (
         <div className="container">
             <form onSubmit={formik.handleSubmit}>
@@ -31,9 +29,7 @@ function Form1() {
                     type="text" 
                     name="email" 
                     id="email" 
-                    value={formik.values.email} 
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email && formik.errors.email && <p className="err">{formik.errors.email}</p>}
 
@@ -41,10 +37,8 @@ function Form1() {
                 <input 
                     type="text" 
                     name="name" 
-                    id="name" 
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    id="name"
+                    {...formik.getFieldProps('name')} 
                 />
                 {formik.touched.name && formik.errors.name && <p className="err">{formik.errors.name}</p>}
 
