@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import FieldError from './FieldError';
 import './form.css';
@@ -12,7 +12,8 @@ function Form1() {
             colour: ''
         },
         mobileNumbers: ['', ''],
-        address: ''
+        address: '',
+        favoriteMovies: ['']
     };
 
     const validationSchema = Yup.object({
@@ -23,7 +24,8 @@ function Form1() {
             colour: Yup.string().required('Colour is required')
         }),
         mobileNumbers: Yup.array().required('Mobile number is required'),
-        address: Yup.string().required('Address is required')
+        address: Yup.string().required('Address is required'),
+        favoriteMovies: Yup.array().required('Favorite Movies is required')
     });
 
     const onSubmit = (values) => {
@@ -73,6 +75,34 @@ function Form1() {
                     <label htmlFor="address">Address</label>
                     <Field type="text" name="address" id="address" />
                     <ErrorMessage name="address" component={FieldError} />
+
+                    <label htmlFor="favMovies">Favorite Movies</label>
+                    <FieldArray name="favoriteMovies" id="favMovies">
+                        {(fieldArgs) => {
+                            const { form, push, remove } = fieldArgs;
+                            const { values } = form;
+                            const { favoriteMovies } = values;
+
+                            return (
+                                <div>
+                                    {favoriteMovies.map((movie, index) => (
+                                        <div key={index} className="flex-row">
+                                            <Field name={`favoriteMovies[${index}]`} />
+                                            {favoriteMovies.length > 1 && (
+                                                <button onClick={() => remove(index)} className="movieRemoveBtn">
+                                                    -
+                                                </button>
+                                            )}
+                                            <button onClick={() => push("")} className="movieAddBtn">
+                                                +
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )
+                        }}
+                    </FieldArray>
+                    <ErrorMessage name="favoriteMovies" />
 
                     <button type="submit">Submit</button>
                 </Form>

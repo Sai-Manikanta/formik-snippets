@@ -40,6 +40,10 @@ button {
   margin-bottom: 10px;
 }
 
+.flex-row {
+  display: flex;
+}
+
 .footer {
   text-align: center;
 }
